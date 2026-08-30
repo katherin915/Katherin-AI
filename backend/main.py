@@ -41,7 +41,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://katherin-ai.vercel.app",],
+        "https://katherin-ai.vercel.app",
+        "https://katherin915.github.io",
+        ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
