@@ -26,3 +26,5 @@ Thumbs.db
 
 # Private resume
 backend/*.pdf
+# Private candidate data
+candidate.json

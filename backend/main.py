@@ -11,12 +11,15 @@ from pydantic import BaseModel
 from groq import Groq, RateLimitError
 from pypdf import PdfReader
 
-
 # -------------------------
 # Load environment variables
 # -------------------------
 
-load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(BASE_DIR / ".env")
+
+
 
 api_key = os.getenv("GROQ_API_KEY")
 
@@ -204,24 +207,18 @@ def parse_candidate(resume_text, links):
 
     return Candidate.model_validate(data)
 
-
 # -------------------------
 # Load candidate once
 # -------------------------
-resume_path = Path(__file__).parent / "KatherinResume26Aug.pdf"
 
-resume_text = read_pdf(resume_path)
+candidate_path = BASE_DIR.parent / "candidate.json"
 
-resume_links = extract_pdf_links(resume_path)
+with open(candidate_path, "r", encoding="utf-8") as f:
+    candidate_data = json.load(f)
 
-candidate = parse_candidate(
-    resume_text,
-    resume_links
-)
+candidate = Candidate.model_validate(candidate_data)
 
 print("Candidate loaded:", candidate.name)
-print(candidate.model_dump_json(indent=2))
-
 
 # -------------------------
 # System prompt for chatbot
